@@ -27,5 +27,34 @@ namespace processor {
         char PC_;
     };
 
+    struct status {
+        // Carry status
+        char C;
+
+        // Zero status
+        char Z;
+
+        // IRQ Enabled/Disabled
+        char I;
+
+        // Decimal mode
+        char D;
+
+        // Index mode
+        char X;
+
+        // Memory/Accumulator mode
+        char M;
+
+        // Overflow status
+        char V;
+
+        // Negative status
+        char N;
+
+        // Initial status
+        status() { C = 0; Z = 0; I = 1; D = 0; X = 1; M = 1; V = 0; N = 0; }
+    };
+
      PROCESSORExport void test();
 };
