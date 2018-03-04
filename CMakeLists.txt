@@ -21,5 +21,6 @@ include_directories("${PROJECT_BINARY_DIR}")
 set (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
+add_subdirectory(${PROJECT_SOURCE_DIR}/src/utils)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/processor)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/smemes_exe)
