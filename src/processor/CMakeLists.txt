@@ -3,7 +3,9 @@ set(PROCESSOR_SRCS
 )
 
 set(PROCESSOR_HEADERS
+    ${CMAKE_CURRENT_LIST_DIR}/instruction.h
     ${CMAKE_CURRENT_LIST_DIR}/processor.h
+    ${CMAKE_CURRENT_LIST_DIR}/register.h
     ${CMAKE_CURRENT_LIST_DIR}/dll_export.h
 )
 
