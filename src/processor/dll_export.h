@@ -1,1 +1,1 @@
-#define PROCESSORExport   __declspec( dllexport )
+#define PROCESSORExport __declspec( dllexport )

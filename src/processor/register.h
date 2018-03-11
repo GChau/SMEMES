@@ -1,12 +1,12 @@
-#include "../utils/utils.h"
-#include "dll_export.h"
+#include "stdafx.h"
 
-namespace reg 
+namespace reg
 {
     struct status
     {
         // Constructor
         status() : C(0), Z(0), I(1), D(0), X(1), M(1), V(0), N(0) {}
+
         auto operator =(uint8& data)
         {
             C = data.bit<0>();
@@ -38,25 +38,27 @@ namespace reg
         bool N;
     };
 
-    struct internal_reg
+    struct proc_65c816_reg
     {
-        internal_reg() : A_(0), X_(0), S_(0), DRB_(0), D_(0), PB_(0), P_(), PC_(0) {}
+        proc_65c816_reg() : A_(0), X_(0), Y_(0), S_(0), DB_(0), DP_(0), PB_(0), P_(), PC_(0) {}
 
+        // https://en.wikipedia.org/wiki/WDC_65816/65802
         // Accumulator
         uint8_t A_;
         // Index
-        uint8_t X_;
+        uint16_t X_;
+        uint16_t Y_;
         // Stack Pointer
-        uint8_t S_;
-        // Databank
-        uint8_t DRB_;
+        uint16_t S_;
+        // Data Bank
+        uint8_t DB_;
         // Direct Page
-        uint8_t D_;
+        uint16_t DP_;
         // Program Bank
         uint8_t PB_;
         // Processor Status
         status P_;
         // Program Counter
-        uint8_t PC_;
+        uint16_t PC_;
     };
 }

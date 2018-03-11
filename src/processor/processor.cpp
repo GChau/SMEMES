@@ -1,6 +1,5 @@
 #include "processor.h"
 
-#include <iostream>
 
 void processor::test() {
 

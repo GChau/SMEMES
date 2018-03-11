@@ -1,12 +1,15 @@
 set(PROCESSOR_SRCS
     ${CMAKE_CURRENT_LIST_DIR}/processor.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/proc_65c816.cpp
 )
 
 set(PROCESSOR_HEADERS
-    ${CMAKE_CURRENT_LIST_DIR}/instruction.h
-    ${CMAKE_CURRENT_LIST_DIR}/processor.h
-    ${CMAKE_CURRENT_LIST_DIR}/register.h
+    ${CMAKE_CURRENT_LIST_DIR}/address_mode.h
     ${CMAKE_CURRENT_LIST_DIR}/dll_export.h
+    ${CMAKE_CURRENT_LIST_DIR}/processor.h
+    ${CMAKE_CURRENT_LIST_DIR}/proc_65c816.h
+    ${CMAKE_CURRENT_LIST_DIR}/register.h
+    ${CMAKE_CURRENT_LIST_DIR}/stdafx.h
 )
 
 set (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})

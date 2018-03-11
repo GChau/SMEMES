@@ -3,8 +3,20 @@
 
 struct uint8
 {
-    uint8_t dat_;
+public:
+    uint8() : dat_(0)
+    {
+    }
 
+    uint8(const uint8& other) : dat_(other.dat_)
+    {
+    }
+
+    uint8(const uint8_t& val) : dat_(val)
+    {
+    }
+
+public:
     uint8_t bit(uint8_t pos)
     {
         return (dat_ >> pos) & 0x1;
@@ -31,12 +43,27 @@ struct uint8
     {
         return (dat_ == other);
     }
+public:
+    // Data
+    uint8_t dat_;
 };
 
 struct uint16
 {
-    uint16_t dat_;
+public:
+    uint16() : dat_(0)
+    {
+    }
 
+    uint16(const uint16& other) : dat_(other.dat_)
+    {
+    }
+
+    uint16(const uint16_t& val) : dat_(val)
+    {
+    }
+
+public:
     uint16_t bit(uint16_t pos)
     {
         return (dat_ >> pos) & 0x1;
@@ -63,4 +90,8 @@ struct uint16
     {
         return (dat_ == other);
     }
+
+public:
+    // Data
+    uint16_t dat_;
 };
