@@ -31,7 +31,6 @@ namespace processor
 
     private:
         // Memory accessors
-        dp_indexed_indirect<reg::proc_65c816_reg, uint16_t> dp_indexed_indirect_;
 
     }; // proc_65c816
 }; // processor

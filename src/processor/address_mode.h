@@ -20,15 +20,15 @@ namespace processor
     };
 
     template<typename Register, typename DataWidth>
-    struct PROCESSORExport dp_indexed_indirect :
-        public address_mode_base<Register, DataWidth>
+    struct PROCESSORExport dp_indexed_indirect_x :  public address_mode_base<Register, DataWidth>
     {
     public:
         using address_mode_base::address_mode_base;
     public:
-        virtual __inline DataWidth resolve(const DataWidth ) override {
-            return (*mem_)[reg_->DP_];
+        virtual __inline DataWidth resolve(const DataWidth value) override {
+            return (*mem_)[reg_->DP_ + reg_->X_];
         }
     };
+
 
 }; // processor
