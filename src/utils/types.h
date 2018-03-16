@@ -3,6 +3,20 @@
 template<class type>
 struct uint
 {
+public:
+    uint() : dat_(0) 
+    {
+    }
+
+    uint(const uint& other) : dat_(other.dat_)
+    {
+    }
+
+    uint(const type& val) : dat_(val)
+    {
+    }
+
+public:
     type dat_;
     
     type bit(int pos)
