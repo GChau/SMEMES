@@ -88,7 +88,13 @@ public:
         return rhs;
     }
 
-    inline friend auto & operator-=(uint)
+    inline friend auto & operator-=(uint &rhs, const uint &lhs)
+    {
+        rhs.dat_ = rhs.dat_ - lhs.dat_;
+        return rhs;
+    }
+
+
 
     inline auto & operator +=(const type &lhs)
     {
@@ -111,6 +117,10 @@ public:
         return rhs.dat_ + lhs.dat_;
     }
 
+    inline friend auto operator-(const uint &rhs; const uint &lhs)
+    {
+        return rhs.dat_ - lhs.dat_;
+    }
 };
 
 typedef uint<uint8_t> uint8;
