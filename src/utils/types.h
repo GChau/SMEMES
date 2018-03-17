@@ -1,10 +1,11 @@
+#pragma once
 #include<inttypes.h>
 
 template<class type>
 struct uint
 {
 public:
-    uint() : dat_(0) 
+    uint() : dat_(0)
     {
     }
 
@@ -18,7 +19,7 @@ public:
 
 public:
     type dat_;
-    
+
     type bit(int pos)
     {
         return (dat_ >> pos) & 0x1;
@@ -37,33 +38,79 @@ public:
         return (shiftedDat & 0xFFFF);
     }
 
-    auto& operator=(const type data)
+    inline  auto& operator=(const type &data)
     {
         dat_ = data;
         return *this;
     }
 
-    auto& operator=(const uint data)
+    inline auto& operator=(const uint &data)
     {
         dat_ = data.dat_;
         return *this;
     }
 
-    auto operator==(const uint &other) const
+    /***********************************
+    /           COMPARISONS
+    ***********************************/
+
+    inline friend bool operator==(const uint &rhs, const uint &lhs)
     {
-        return (dat_ == other.dat_);
+        return (rhs.dat_ == lhs.dat_);
     }
 
-    auto operator==(const type &other) const
+    inline friend bool operator<(const uint &rhs, const uint &lhs)
     {
-        return (dat_ == other);
+        return (rhs.dat_ < lhs.dat_);
     }
 
-    auto operator+(const type &other) const
+    inline friend bool operator<=(const uint &rhs, const uint &lhs)
     {
-        this.dat_ += other;
-        return this.dat_;
+        return (rhs.dat_ <= lhs.dat_);
     }
+
+    inline friend bool operator>(const uint &rhs, const uint &lhs)
+    {
+        return (rhs.dat_ > lhs.dat_);
+    }
+
+    inline friend bool operator>=(const uint &rhs, const uint &lhs)
+    {
+        return (rhs.dat_ >= lhs.dat_);
+    }
+
+    /***********************************
+    /               MATHS
+    ***********************************/
+    inline friend auto & operator+=(uint &rhs, const uint &lhs)
+    {
+        rhs.dat_ = rhs.dat_ + lhs.dat_;
+        return rhs;
+    }
+
+    inline friend auto & operator-=(uint)
+
+    inline auto & operator +=(const type &lhs)
+    {
+        dat_ = dat_ + lhs;
+        return *this;
+    }
+
+    inline auto operator <<(const uint &lhs)
+    {
+        return (this.dat_ << lhs.dat_);
+    }
+    
+    inline auto operator >>(const uint &lhs)
+    {
+        return (this.dat_ >> lhs.dat_);
+    }
+
+    inline friend auto operator+(const uint &rhs, const uint &lhs)
+    {
+        return rhs.dat_ + lhs.dat_;
+    }
+
 };
 
 typedef uint<uint8_t> uint8;
