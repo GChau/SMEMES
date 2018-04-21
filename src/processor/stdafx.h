@@ -8,7 +8,8 @@
 // STD / STL includes
 #include <iostream>
 #include <memory>
-#include <string.h>
+#include <string>
+#include <type_traits>
 #include <vector>
 
 // Disable warnings

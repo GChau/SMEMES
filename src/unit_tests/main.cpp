@@ -9,7 +9,7 @@ int main (int argc, char *argv[]) {
     auto proc = std::make_unique<processor::proc_65c816>();
 
     uint32_t cycles = 0;
-    //proc->add_with_carry<processor::address_mode::dp_indexed_indirect>(1, cycles);
+    //auto ret_1 = proc->add_with_carry(processor::address_mode_e::immediate, (uint16_t)1, cycles);
 
     return 0;
 }

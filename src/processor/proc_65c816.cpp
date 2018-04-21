@@ -4,13 +4,17 @@ using namespace processor;
 
 proc_65c816::proc_65c816() :
     reg_(std::make_shared<reg::proc_65c816_reg>()),
-    mem_(std::make_shared<std::vector<uint16_t>>(1024))
+    mem_(std::make_shared<std::vector<uint16_t>>(1024)),
+    am_immediate_(reg_, mem_),
+    am_absolute_addressing_ct_(reg_, mem_),
+    am_absolute_addressing_dt_(reg_, mem_)
 {
 }
 
-template<typename address_mode>
-uint16_t proc_65c816::add_with_carry(const uint16_t value, uint32_t& cycles)
-{
-    reg_.A_ += reg_.X_ + address_mode(reg_, mem_).resolve(value);
-    return 6;
+std::shared_ptr<reg::proc_65c816_reg> proc_65c816::get_reg() {
+    return reg_;
+}
+
+std::shared_ptr<std::vector<uint16_t>> proc_65c816::get_mem() {
+    return mem_;
 }

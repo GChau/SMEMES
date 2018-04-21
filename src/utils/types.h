@@ -25,7 +25,7 @@ public:
     }
 
     template<int pos>
-    type bit()
+    bool bit()
     {
         return (dat_ >> pos) & 0x1;
     }
@@ -66,6 +66,6 @@ public:
     }
 };
 
-typedef uint<uint8_t> uint8;
-typedef uint<uint16_t> uint16;
-typedef uint<uint32_t> uint32;
+typedef uint<uint8_t> uint_8;
+typedef uint<uint16_t> uint_16;
+typedef uint<uint32_t> uint_32;

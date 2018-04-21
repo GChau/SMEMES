@@ -7,7 +7,7 @@ namespace reg
         // Constructor
         status() : C(0), Z(0), I(0), D(0), X(0), M(0), V(0), N(0) {}
 
-        auto operator =(uint8& data)
+        auto operator =(uint_8& data)
         {
             C = data.bit<0>();
             Z = data.bit<1>();
