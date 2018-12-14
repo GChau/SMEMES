@@ -4,11 +4,13 @@ namespace processor
 {
     enum class transfer_type_e {
         data_transfer,
-        control_transfer,
+        control_transfer,   // This is for transfering control between banks (jump absolute long etc.)
         no_transfer
     };
 
     // Helper function for static assertions
+    // If T is a complete enumeration type, provides a member typedef type that names the underlying type of T.
+    // https://en.cppreference.com/w/cpp/types/underlying_type
     template<typename E>
     constexpr auto to_integral(E e) -> typename std::underlying_type_t<E> {
         return static_cast<typename std::underlying_type_t<E>>(e);
@@ -22,51 +24,24 @@ namespace processor
 
     //---------------------------------------------------------------------------------------------
 
-    template<typename Register, typename DataWidth, typename EnumClass, EnumClass TransferType>
-    struct PROCESSORExport address_mode_base
+    // See page 92
+    template<typename Register, typename Memory, typename DataWidth, typename EnumClass, EnumClass TransferType>
+    struct PROCESSORExport absolute_addressing
     {
     public:
-        address_mode_base(std::shared_ptr<Register> reg, std::shared_ptr<std::vector<DataWidth>> mem) :
-            reg_(std::move(reg)),
-            mem_(std::move(mem))
-        {
-        }
-
-        virtual ~address_mode_base()
-        {
-        }
-
-    public:
-        virtual DataWidth resolve(const DataWidth value) = 0;
-    protected:
-        // Data
-        std::shared_ptr<Register> reg_;
-        std::shared_ptr<std::vector<DataWidth>> mem_;
-    };
-
-    //---------------------------------------------------------------------------------------------
-
-    template<typename Register, typename DataWidth, typename EnumClass, EnumClass TransferType>
-    struct PROCESSORExport absolute_addressing : public address_mode_base<Register, DataWidth, EnumClass, TransferType>
-    {
-    public:
-        using address_mode_base::address_mode_base;
-
-    public:
-        virtual __inline DataWidth resolve(const DataWidth value) override {
-            static_assert(std::is_same_v<EnumClass, transfer_type_e>, "tempalte EnumClass parameter must be of enum class transfer_type_e.");
+        __inline DataWidth operator()(const Register& reg, const Memory& mem, const DataWidth& operand) {
+            static_assert(std::is_same_v<EnumClass, transfer_type_e>, "template EnumClass parameter must be of enum class transfer_type_e.");
             static_assert(to_integral(TransferType) != to_integral(transfer_type_e::no_transfer), "transfer_type_e::no_transfer not allowed for absolute addressing - address mode.");
 
             // Hack for now
             // Does this work for 16 bit mode?
+            // Decide to either use the data bank register as the 16-24 bits in the address
+            // Or just using the PC counter
+            const auto& reg_byte = to_integral(TransferType) == to_integral(transfer_type_e::data_transfer) ? reg->DB_ : reg->PC_;
 
-            const auto& reg_byte = to_integral(TransferType) == to_integral(transfer_type_e::data_transfer) ? reg_->DB_ : reg_->PC_;
-
-
-            const uint32_t full_address = (value | (reg_->DB_ << (sizeof(DataWidth) * 8))) & 0x00FFFFFF;
-            return (*mem_)[full_address];
-
-            return 0;
+            // Urgh, can we template this? Another data type?
+            const uint32_t full_address = ((reg->DB_ << 16) | operand) & 0x00FFFFFF;
+            return (*mem)[full_address];
         }
     };
 
@@ -74,30 +49,25 @@ namespace processor
 
     // Example opcode
     // A912     LDA     #$12
-    // Load hexidecimal value $12 into the accumulator
-    // # indicates constant value
-    template<typename Register, typename DataWidth>
-    struct PROCESSORExport immediate : public address_mode_base<Register, DataWidth, transfer_type_e, transfer_type_e::no_transfer>
-    {
+    // Load hexidecimal operand $12 into the accumulator
+    // # indicates constant operand
+    template<typename Register, typename Memory, typename DataWidth>
+    struct PROCESSORExport immediate
+    {    
     public:
-        using address_mode_base::address_mode_base;
-
-    public:
-        virtual __inline DataWidth resolve(const DataWidth value) override {
-            return (DataWidth)value;
+        __inline DataWidth operator()(const Register& reg, const Memory& mem, const DataWidth operand) {
+            return operand;
         }
     };
-
+    
     //---------------------------------------------------------------------------------------------
 
-    template<typename Register, typename DataWidth>
-    struct PROCESSORExport dp_indexed_indirect_x : public address_mode_base<Register, DataWidth, transfer_type_e, transfer_type_e::no_transfer>
+    template<typename Register, typename Memory, typename DataWidth>
+    struct PROCESSORExport dp_indexed_indirect_x
     {
     public:
-        using address_mode_base::address_mode_base;
-    public:
-        virtual __inline DataWidth resolve(const DataWidth value) override {
-            return (*mem_)[reg_->DP_ + reg_->X_];
+        __inline DataWidth resolve(const Register& reg, const Memory& mem, const DataWidth operand) {
+            return (*mem)[reg->DP_ + reg->X_];
         }
     };
 

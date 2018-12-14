@@ -19,8 +19,6 @@ namespace reg
             N = data.bit<7>();
         }
 
-   
-
         // Data
         // Carry status, 1 == carry
         // This can also set the emulation mode e, which determines either native or 6502 (8-bit) emulation
@@ -48,6 +46,7 @@ namespace reg
         // If X == 1, index registers are in 8-bit mode
         // If X == 0, index registers are in 16-bit mode
         bool X;
+
         // Memory/Accumulator Select mode
         // This also indicates the size and memory accesses
         // If M == 1, Accumulator is 8-bit mode

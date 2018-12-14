@@ -18,14 +18,10 @@ namespace processor
         std::shared_ptr<std::vector<uint16_t>> get_mem();
 
     public:
-        /*
-        // Helper
-        template<typename address_mode>
-        uint16_t resolve(const uint16_t value);
-        */
         // Instructions
         // ADC
-        uint16_t add_with_carry(const address_mode_e& address_mode, const uint16_t value, uint32_t& cycles);
+        uint32_t add_with_carry(const address_mode_e& address_mode, const uint16_t value);
+
 
     private:
         // Data
@@ -33,10 +29,11 @@ namespace processor
         std::shared_ptr<std::vector<uint16_t>> mem_;
 
     public:
-        // Memory accessors
-        immediate<reg::proc_65c816_reg, uint16_t> am_immediate_;
-        absolute_addressing<reg::proc_65c816_reg, uint16_t, transfer_type_e, transfer_type_e::control_transfer> am_absolute_addressing_ct_;
-        absolute_addressing<reg::proc_65c816_reg, uint16_t, transfer_type_e, transfer_type_e::data_transfer> am_absolute_addressing_dt_;
+        using reg_t = decltype(reg_);
+        using mem_t = decltype(mem_);
+        using immediate_addressing_t = immediate<reg_t, mem_t, uint16_t>;
+        using absolute_addressing_ct_t = absolute_addressing<reg_t, mem_t, uint16_t, transfer_type_e, transfer_type_e::control_transfer>;
+        using absolute_addressing_dt_t = absolute_addressing<reg_t, mem_t, uint16_t, transfer_type_e, transfer_type_e::data_transfer>;
 
     }; // proc_65c816
 }; // processor

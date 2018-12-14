@@ -3,6 +3,9 @@
 // Custom includes
 #include "../utils/utils.h"
 
+// Unit test include
+#include "catch.hpp"
+
 // STD / STL includes
 #include <iostream>
 #include <memory>
